@@ -7,31 +7,36 @@ INSERT INTO calendar_types (id, name) VALUES
   ('11111111-0000-0000-0000-000000000005', 'זמנים בית ספריים'),
   ('11111111-0000-0000-0000-000000000006', 'זמנים קרן מנדל'),
   ('11111111-0000-0000-0000-000000000007', 'חופשות'),
-  ('11111111-0000-0000-0000-000000000008', 'המרכז למדיניות בחינוך');
+  ('11111111-0000-0000-0000-000000000008', 'המרכז למדיניות בחינוך')
+ON CONFLICT DO NOTHING;
 
 -- Knowledge areas
 INSERT INTO knowledge_areas (id, name) VALUES
   ('22222222-0000-0000-0000-000000000001', 'רוח'),
   ('22222222-0000-0000-0000-000000000002', 'מדיניות'),
-  ('22222222-0000-0000-0000-000000000003', 'חינוך');
+  ('22222222-0000-0000-0000-000000000003', 'חינוך')
+ON CONFLICT DO NOTHING;
 
 -- Meeting types
 INSERT INTO meeting_types (id, name) VALUES
   ('33333333-0000-0000-0000-000000000001', 'הרצאה'),
   ('33333333-0000-0000-0000-000000000002', 'סדנה'),
   ('33333333-0000-0000-0000-000000000003', 'סמינר'),
-  ('33333333-0000-0000-0000-000000000004', 'מפגש אישי');
+  ('33333333-0000-0000-0000-000000000004', 'מפגש אישי')
+ON CONFLICT DO NOTHING;
 
 -- Super topics
 INSERT INTO super_topics (id, name) VALUES
   ('44444444-0000-0000-0000-000000000001', 'חינוך'),
   ('44444444-0000-0000-0000-000000000002', 'מדיניות'),
-  ('44444444-0000-0000-0000-000000000003', 'מנהיגות');
+  ('44444444-0000-0000-0000-000000000003', 'מנהיגות')
+ON CONFLICT DO NOTHING;
 
 -- Combined super topics
 INSERT INTO combined_super_topics (id, name) VALUES
   ('55555555-0000-0000-0000-000000000001', 'חינוך ומדיניות'),
-  ('55555555-0000-0000-0000-000000000002', 'מנהיגות וחינוך');
+  ('55555555-0000-0000-0000-000000000002', 'מנהיגות וחינוך')
+ON CONFLICT DO NOTHING;
 
 -- Staff
 INSERT INTO staff (id, name, status) VALUES
@@ -40,31 +45,29 @@ INSERT INTO staff (id, name, status) VALUES
   ('aaaaaaaa-0000-0000-0000-000000000003', 'ד"ר איל שאול',          'ליבה'),
   ('aaaaaaaa-0000-0000-0000-000000000004', 'מלכה פיוטרקובוסקי',    'ליבה'),
   ('aaaaaaaa-0000-0000-0000-000000000005', 'עדינה בר שלום',         'אורח'),
-  ('aaaaaaaa-0000-0000-0000-000000000006', 'יועץ חיצוני',           'ספק');
+  ('aaaaaaaa-0000-0000-0000-000000000006', 'יועץ חיצוני',           'ספק')
+ON CONFLICT DO NOTHING;
 
 -- Regular availability (core staff)
 INSERT INTO regular_availability (staff_id, day_of_week, availability, time_start, time_end, notes) VALUES
-  -- ד"ר אדר כהן: available Mon–Thu full, no Fri
   ('aaaaaaaa-0000-0000-0000-000000000001', 'יום ב', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000001', 'יום ג', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000001', 'יום ד', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000001', 'יום ה', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000001', 'יום א', 'לא זמין',     NULL, NULL, NULL),
-  -- ד"ר טלי אשר
   ('aaaaaaaa-0000-0000-0000-000000000002', 'יום ב', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000002', 'יום ג', 'זמין בתיאום מראש', NULL, NULL, 'עובדת מהבית'),
   ('aaaaaaaa-0000-0000-0000-000000000002', 'יום ד', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000002', 'יום ה', 'לא זמין',     NULL, NULL, NULL),
-  -- ד"ר איל שאול: blocked 14:00–16:00 on Wednesdays
   ('aaaaaaaa-0000-0000-0000-000000000003', 'יום ב', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000003', 'יום ג', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000003', 'יום ד', 'זמינות מלאה', '14:00', '16:00', 'שיעור אקדמי'),
   ('aaaaaaaa-0000-0000-0000-000000000003', 'יום ה', 'זמינות מלאה', NULL, NULL, NULL),
-  -- מלכה פיוטרקובוסקי
   ('aaaaaaaa-0000-0000-0000-000000000004', 'יום ב', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000004', 'יום ג', 'זמינות מלאה', NULL, NULL, NULL),
   ('aaaaaaaa-0000-0000-0000-000000000004', 'יום ד', 'זמינות מלאה', NULL, NULL, NULL),
-  ('aaaaaaaa-0000-0000-0000-000000000004', 'יום ה', 'זמין בתיאום מראש', NULL, NULL, NULL);
+  ('aaaaaaaa-0000-0000-0000-000000000004', 'יום ה', 'זמין בתיאום מראש', NULL, NULL, NULL)
+ON CONFLICT DO NOTHING;
 
 -- Courses
 INSERT INTO courses (id, name, calendar_type_id, knowledge_area_id) VALUES
@@ -77,7 +80,8 @@ INSERT INTO courses (id, name, calendar_type_id, knowledge_area_id) VALUES
   ('cccccccc-0000-0000-0000-000000000007', 'מעגלי לימוד - סגל בית הספר',    '11111111-0000-0000-0000-000000000005', NULL),
   ('cccccccc-0000-0000-0000-000000000008', 'תפגש עם עדינה בר שלום',          '11111111-0000-0000-0000-000000000001', NULL),
   ('cccccccc-0000-0000-0000-000000000009', 'דנאות עמיתים - שנה ב',           '11111111-0000-0000-0000-000000000002', NULL),
-  ('cccccccc-0000-0000-0000-000000000010', 'מיון משתתפים',                   '11111111-0000-0000-0000-000000000003', NULL);
+  ('cccccccc-0000-0000-0000-000000000010', 'מיון משתתפים',                   '11111111-0000-0000-0000-000000000003', NULL)
+ON CONFLICT DO NOTHING;
 
 -- Course–staff associations
 INSERT INTO course_staff (course_id, staff_id) VALUES
@@ -90,9 +94,10 @@ INSERT INTO course_staff (course_id, staff_id) VALUES
   ('cccccccc-0000-0000-0000-000000000007', 'aaaaaaaa-0000-0000-0000-000000000004'),
   ('cccccccc-0000-0000-0000-000000000008', 'aaaaaaaa-0000-0000-0000-000000000005'),
   ('cccccccc-0000-0000-0000-000000000009', 'aaaaaaaa-0000-0000-0000-000000000002'),
-  ('cccccccc-0000-0000-0000-000000000010', 'aaaaaaaa-0000-0000-0000-000000000003');
+  ('cccccccc-0000-0000-0000-000000000010', 'aaaaaaaa-0000-0000-0000-000000000003')
+ON CONFLICT DO NOTHING;
 
--- Sessions (from screenshots)
+-- Sessions
 INSERT INTO sessions (id, course_id, start_datetime, end_datetime, calendar_type_id) VALUES
   ('dddddddd-0000-0000-0000-000000000001',
    'cccccccc-0000-0000-0000-000000000001',
@@ -117,7 +122,8 @@ INSERT INTO sessions (id, course_id, start_datetime, end_datetime, calendar_type
   ('dddddddd-0000-0000-0000-000000000006',
    'cccccccc-0000-0000-0000-000000000005',
    '2025-09-04 09:30:00+03', '2025-09-04 11:00:00+03',
-   '11111111-0000-0000-0000-000000000001');
+   '11111111-0000-0000-0000-000000000001')
+ON CONFLICT DO NOTHING;
 
 -- Session–staff associations
 INSERT INTO session_staff (session_id, staff_id) VALUES
@@ -126,4 +132,5 @@ INSERT INTO session_staff (session_id, staff_id) VALUES
   ('dddddddd-0000-0000-0000-000000000003', 'aaaaaaaa-0000-0000-0000-000000000004'),
   ('dddddddd-0000-0000-0000-000000000003', 'aaaaaaaa-0000-0000-0000-000000000005'),
   ('dddddddd-0000-0000-0000-000000000004', 'aaaaaaaa-0000-0000-0000-000000000002'),
-  ('dddddddd-0000-0000-0000-000000000006', 'aaaaaaaa-0000-0000-0000-000000000003');
+  ('dddddddd-0000-0000-0000-000000000006', 'aaaaaaaa-0000-0000-0000-000000000003')
+ON CONFLICT DO NOTHING;

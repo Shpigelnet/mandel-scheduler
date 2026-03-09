@@ -1,16 +1,24 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TYPE staff_status AS ENUM ('אורח', 'ספק', 'סגל קרן מנדל', 'ליבה');
-CREATE TYPE day_of_week_he AS ENUM ('יום א', 'יום ב', 'יום ג', 'יום ד', 'יום ה');
-CREATE TYPE availability_type AS ENUM ('זמינות מלאה', 'זמין בתיאום מראש', 'לא זמין');
+DO $$ BEGIN
+  CREATE TYPE staff_status AS ENUM ('אורח', 'ספק', 'סגל קרן מנדל', 'ליבה');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE TABLE staff (
+DO $$ BEGIN
+  CREATE TYPE day_of_week_he AS ENUM ('יום א', 'יום ב', 'יום ג', 'יום ד', 'יום ה');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+DO $$ BEGIN
+  CREATE TYPE availability_type AS ENUM ('זמינות מלאה', 'זמין בתיאום מראש', 'לא זמין');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+CREATE TABLE IF NOT EXISTS staff (
   id     uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name   text NOT NULL,
   status staff_status NOT NULL
 );
 
-CREATE TABLE regular_availability (
+CREATE TABLE IF NOT EXISTS regular_availability (
   id           uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   staff_id     uuid NOT NULL REFERENCES staff(id) ON DELETE CASCADE,
   day_of_week  day_of_week_he NOT NULL,
@@ -19,43 +27,43 @@ CREATE TABLE regular_availability (
   time_end     time,
   notes        text
 );
-CREATE INDEX idx_reg_avail_staff_day ON regular_availability(staff_id, day_of_week);
+CREATE INDEX IF NOT EXISTS idx_reg_avail_staff_day ON regular_availability(staff_id, day_of_week);
 
-CREATE TABLE one_time_absences (
+CREATE TABLE IF NOT EXISTS one_time_absences (
   id         uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   staff_id   uuid NOT NULL REFERENCES staff(id) ON DELETE CASCADE,
   start_date timestamptz NOT NULL,
   end_date   timestamptz NOT NULL,
   notes      text
 );
-CREATE INDEX idx_absences_staff ON one_time_absences(staff_id);
+CREATE INDEX IF NOT EXISTS idx_absences_staff ON one_time_absences(staff_id);
 
-CREATE TABLE calendar_types (
+CREATE TABLE IF NOT EXISTS calendar_types (
   id   uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name text UNIQUE NOT NULL
 );
 
-CREATE TABLE knowledge_areas (
+CREATE TABLE IF NOT EXISTS knowledge_areas (
   id   uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name text NOT NULL
 );
 
-CREATE TABLE meeting_types (
+CREATE TABLE IF NOT EXISTS meeting_types (
   id   uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name text NOT NULL
 );
 
-CREATE TABLE super_topics (
+CREATE TABLE IF NOT EXISTS super_topics (
   id   uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name text NOT NULL
 );
 
-CREATE TABLE combined_super_topics (
+CREATE TABLE IF NOT EXISTS combined_super_topics (
   id   uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name text NOT NULL
 );
 
-CREATE TABLE courses (
+CREATE TABLE IF NOT EXISTS courses (
   id                      uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   name                    text NOT NULL,
   calendar_type_id        uuid REFERENCES calendar_types(id),
@@ -65,13 +73,13 @@ CREATE TABLE courses (
   combined_super_topic_id uuid REFERENCES combined_super_topics(id)
 );
 
-CREATE TABLE course_staff (
+CREATE TABLE IF NOT EXISTS course_staff (
   course_id uuid NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
   staff_id  uuid NOT NULL REFERENCES staff(id)   ON DELETE CASCADE,
   PRIMARY KEY (course_id, staff_id)
 );
 
-CREATE TABLE sessions (
+CREATE TABLE IF NOT EXISTS sessions (
   id               uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   course_id        uuid REFERENCES courses(id),
   start_datetime   timestamptz NOT NULL,
@@ -79,9 +87,9 @@ CREATE TABLE sessions (
   calendar_type_id uuid REFERENCES calendar_types(id),
   notes            text
 );
-CREATE INDEX idx_sessions_time ON sessions(start_datetime, end_datetime);
+CREATE INDEX IF NOT EXISTS idx_sessions_time ON sessions(start_datetime, end_datetime);
 
-CREATE TABLE session_staff (
+CREATE TABLE IF NOT EXISTS session_staff (
   session_id uuid NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
   staff_id   uuid NOT NULL REFERENCES staff(id)    ON DELETE CASCADE,
   PRIMARY KEY (session_id, staff_id)
