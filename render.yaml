@@ -7,7 +7,6 @@ databases:
 services:
   - type: web
     name: mandel-backend
-    plan: free
     runtime: node
     rootDir: backend
     buildCommand: npm install && npm run build
@@ -22,7 +21,6 @@ services:
 
   - type: web
     name: mandel-frontend
-    plan: free
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
