@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  body {
+    background-color: #F5F0E8;
+    font-family: 'Frank Ruhl Libre', serif;
+    direction: rtl;
+    color: #1a1a1a;
+  }
+}
+
+@layer utilities {
+  .text-wrap-cell {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .availability-cell {
+    white-space: pre-line;
+    word-break: break-word;
+    line-height: 1.6;
+  }
+}
+
+/* FullCalendar RTL overrides */
+.fc .fc-toolbar {
+  flex-direction: row-reverse;
+}
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  font-family: 'Frank Ruhl Libre', serif;
+}
